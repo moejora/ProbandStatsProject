@@ -1,15 +1,16 @@
 package PokemonTCG;
 
 public class Bulbasaur extends Pokemon {
+
     public Bulbasaur() {
-        super("Bulbasaur", 65, 1);
+        super("Bulbasaur", 70, 15);
     }
-    
+
+    // Bulbasaur-specific special attack
     @Override
-    public void attack(Pokemon target) {
-        if (canAttack()) {
-            System.out.println("Bulbasaur uses Vine Whip!");
-            target.damage(18);
-        }
+    public void useSpecialAttack(Pokemon target) {
+        int specialDamage = 18;
+        System.out.println("Bulbasaur uses Vine Whip on " + target.getName() + " for " + specialDamage + " damage!");
+        target.takeDamage(specialDamage);
     }
 }

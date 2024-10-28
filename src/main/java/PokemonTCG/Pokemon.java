@@ -2,63 +2,76 @@ package PokemonTCG;
 
 import java.util.ArrayList;
 
-public abstract class Pokemon extends Card {
-    private int hp;
-    protected int energyRequired;
-    private ArrayList<Energy> attachedEnergy;
-    private boolean active;
-    int attackDamage;
-    
-    public Pokemon(String name, int hp, int energyRequired) {
-        super(name);
+public class Pokemon {
+
+    protected String name;
+    protected int hp;
+    protected int baseDamage;
+    protected ArrayList<Energy> energies = new ArrayList<>();
+    private ArrayList<Energy> attachedEnergies;
+
+    public Pokemon(String name, int hp, int baseDamage) {
+        this.name = name;
         this.hp = hp;
-        this.energyRequired = energyRequired;
-        this.attachedEnergy = new ArrayList<>();
+        this.baseDamage = baseDamage;
     }
-    
-    public void attachEnergy(Energy energy) {
-        attachedEnergy.add(energy);
+
+    // Getters and Setters
+    public String getName() {
+        return name;
     }
-    
-    public boolean canAttack() {
-        return attachedEnergy.size() >= energyRequired;
-    }
-    
-    public void damage(int amount) {
-        hp -= amount;
-        if (hp < 0) hp = 0;
-    }
-    
-    public boolean isKnockedOut() {
-        return hp <= 0;
-    }
-    
-    public int getAttackDamage() {
-    
-        return attackDamage;
-    }
+
     public int getHp() {
         return hp;
     }
-    
-    public void setActive(boolean active) {
-        this.active = active;
+
+    public void setHp(int hp) {
+        this.hp = hp;
     }
-    
-    abstract void attack(Pokemon target);
-    
-    @Override
-    public void play(Player player, Player opponent) {
-        if (!player.hasActivePokemon()) {
-            setActive(true);
-            player.setActivePokemon(this);
-            System.out.println(player.getName() + " plays " + getName() + " as active Pokémon!");
-        } else {
-            player.addToBench(this);
-            System.out.println(player.getName() + " adds " + getName() + " to bench!");
+
+    // Method to add energy to the Pokémon
+    public void addEnergy(Energy energy) {
+        energies.add(energy);
+        System.out.println(name + " now has " + energy.getType() + " energy attached.");
+    }
+
+    // Method to check if the Pokémon has a specific type of energy attached
+    public boolean hasEnergy(String type) {
+        for (Energy energy : energies) {
+            if (energy.getType().equalsIgnoreCase(type)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Standard attack method that deals base damage to a target Pokémon
+    public void attack(Pokemon target) {
+        System.out.println(name + " attacks " + target.getName() + " for " + baseDamage + " damage!");
+        target.takeDamage(baseDamage);
+    }
+
+    public boolean isAlive() {
+        return hp > 0;
+    }
+
+    // Modify `takeDamage` to prevent negative HP
+    public void takeDamage(int damage) {
+        hp = Math.max(0, hp - damage); // Prevents HP from going below zero
+        System.out.println(name + " takes " + damage + " damage. Remaining HP: " + hp);
+        if (hp == 0) {
+            System.out.println(name + " has fainted!");
         }
     }
-    public String getStatus() {
-    return getName() + " (HP: " + getHp() + ")";
-}
+
+    public void attachEnergy(Energy energy) {
+        attachedEnergies.add(energy);
+        System.out.println("Attached " + energy.getType() + " energy to " + name + ".");
+    }
+
+    // Optional special attack method that deals additional damage
+    public void useSpecialAttack(Pokemon target) {
+        System.out.println(name + " uses a powerful special attack on " + target.getName() + "!");
+        target.takeDamage(baseDamage + 10); // Special attack with additional damage
+    }
 }
