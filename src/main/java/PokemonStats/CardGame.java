@@ -19,13 +19,19 @@ public class CardGame {
         for (int i = 0; i < 4; i++) {
             deck.add(new Charmander()); // Add 4 Charmanders
         }
-        // Fill remaining slots with random Trainer and Energy cards
+        // Fill remaining slots with random Trainer and Energy cards, but only 4 Rare Candies
+        int rareCandyCount = 0;
         Random rng = new Random();
         while (deck.size() < TOTAL_CARDS) {
             if (rng.nextBoolean()) {
                 deck.add(new Energy()); // Add an Energy card
             } else {
-                deck.add(new RareCandy()); // Add a Trainer card (RareCandy)
+                if (rareCandyCount < 4) {
+                    deck.add(new RareCandy()); // Add a Trainer card (RareCandy)
+                    rareCandyCount++;
+                } else {
+                    deck.add(new Energy()); // Add an Energy card if RareCandy limit reached
+                }
             }
         }
     }
@@ -58,7 +64,7 @@ public class CardGame {
     public void monteCarloSimulation(int numPokemon, int trials) {
         int totalReshuffles = 0;
         int successes = 0; // Count successful draws
-        double[] rareCandyOdds = new double[7]; // To store odds of 0 to 6 Rare Candies
+        double[] rareCandyOdds = new double[5]; // To store odds of 0 to 4 Rare Candies
 
         // Clear odds for each simulation run
         Arrays.fill(rareCandyOdds, 0);
@@ -93,7 +99,7 @@ public class CardGame {
         System.out.println(); // Add a space between different Pokémon counts
 
         // Normalize rare candy counts to percentages
-        for (int i = 0; i <= 6; i++) {
+        for (int i = 0; i <= 4; i++) {
             rareCandyOdds[i] = (rareCandyOdds[i] / trials) * 100; // Convert to percentage
         }
 
@@ -106,23 +112,29 @@ public class CardGame {
         for (int i = 0; i < numPokemon; i++) {
             deck.add(new Charmander()); // Add Pokémon cards
         }
-        // Fill remaining slots with random Trainer and Energy cards
+        // Fill remaining slots with random Trainer and Energy cards, but only 4 Rare Candies
+        int rareCandyCount = 0;
         Random rng = new Random();
         while (deck.size() < TOTAL_CARDS) {
             if (rng.nextBoolean()) {
                 deck.add(new Energy()); // Add an Energy card
             } else {
-                deck.add(new RareCandy()); // Add a Trainer card (RareCandy)
+                if (rareCandyCount < 4) {
+                    deck.add(new RareCandy()); // Add a Trainer card (RareCandy)
+                    rareCandyCount++;
+                } else {
+                    deck.add(new Energy()); // Add an Energy card if RareCandy limit reached
+                }
             }
         }
     }
 
     private void countRareCandiesInPrizeDeck(double[] rareCandyOdds) {
-        // Draw 6 cards to form the prize deck
+        // Draw 4 cards to form the prize deck
         Random rng = new Random();
         int rareCandyCount = 0;
 
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 4; i++) {
             int cardIndex = rng.nextInt(deck.size());
             Card drawnCard = deck.get(cardIndex);
             if (drawnCard instanceof RareCandy) {
@@ -136,7 +148,7 @@ public class CardGame {
 
     private void printRareCandyOdds(int numPokemon, double[] rareCandyOdds) {
         System.out.printf("When there is %d Pokémon card(s) in the deck:\n", numPokemon);
-        for (int i = 0; i <= 6; i++) {
+        for (int i = 0; i <= 4; i++) {
             System.out.printf("Odds of having %d Rare Candies in prize deck: %.6f%%\n", i, rareCandyOdds[i]);
         }
         System.out.println(); // Add a space after the odds section

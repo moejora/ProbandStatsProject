@@ -8,7 +8,7 @@ public class Pokemon {
     protected int hp;
     protected int baseDamage;
     protected ArrayList<Energy> energies = new ArrayList<>();
-    private ArrayList<Energy> attachedEnergies;
+    private ArrayList<Energy> attachedEnergies = new ArrayList<>();
 
     public Pokemon(String name, int hp, int baseDamage) {
         this.name = name;

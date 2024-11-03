@@ -106,13 +106,16 @@ public class Game {
                     break;
                 case 3:
                     currentPlayer.playTrainerCard(opponent); // Pass opponent as parameter
+                    turnEnded = true;
                     break;
                 case 4:
                     currentPlayer.attachEnergy();
+                    turnEnded = true;
                     break;
                 case 5:
                     if (currentPlayer.hasActivePokemon() && opponent.hasActivePokemon()) {
                         currentPlayer.attack(opponent.getActivePokemon());
+                        turnEnded = true;
 
                         // Check if opponent's Pokémon fainted and collect prize card
                         if (!opponent.getActivePokemon().isAlive()) {
