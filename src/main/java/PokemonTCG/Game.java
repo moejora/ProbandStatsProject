@@ -117,13 +117,11 @@ public class Game {
                         currentPlayer.attack(opponent.getActivePokemon());
                         turnEnded = true;
 
-                        // Check if opponent's Pokémon fainted and collect prize card
                         if (!opponent.getActivePokemon().isAlive()) {
                             System.out.println(opponent.getActivePokemon().getName() + " has fainted!");
                             System.out.println(currentPlayer.getName() + " has defeated " + opponent.getName() + "'s Pokémon!");
                             currentPlayer.collectPrizeCard();
 
-                            // Check win condition after collecting prize card
                             if (!currentPlayer.hasPrizeCards()) {
                                 System.out.println("\nGame Over! " + currentPlayer.getName() + " wins by collecting all prize cards!");
                                 turnEnded = true; // End game immediately

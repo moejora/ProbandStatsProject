@@ -86,7 +86,6 @@ public class Player {
         }
     }
 
-    // Sets the first Pokémon in hand as the active Pokémon
     public void setFirstActivePokemon() {
         for (Object card : hand) {
             if (card instanceof Pokemon) {
@@ -128,7 +127,6 @@ public class Player {
         System.out.println(name + " has no more Pokémon in their hand to switch in.");
     }
 
-    // Plays the first Trainer card from the hand, if available
     public void playTrainerCard(Player opponent) {
         for (Object card : hand) {
             if (card instanceof TrainerCard) {
@@ -194,7 +192,7 @@ public class Player {
         return !bench.isEmpty();
     }
 
-    // Switches a random benched Pokémon with the active Pokémon
+    // Switches benched Pokémon with the active Pokémon
     public void switchRandomBenchedWithActive() {
         if (!bench.isEmpty()) {
             Collections.shuffle(bench);

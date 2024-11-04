@@ -35,9 +35,13 @@ public class Pokemon {
         System.out.println(name + " now has " + energy.getType() + " energy attached.");
     }
 
-    // Method to check if the Pokémon has a specific type of energy attached
-    public boolean hasEnergy(String type) {
-        for (Energy energy : energies) {
+    public boolean hasEnergy() {
+        return !attachedEnergies.isEmpty();
+    }
+
+    // Renamed method to check if the Pokémon has a specific type of energy attached
+    public boolean hasSpecificEnergy(String type) {
+        for (Energy energy : attachedEnergies) {
             if (energy.getType().equalsIgnoreCase(type)) {
                 return true;
             }
@@ -47,8 +51,12 @@ public class Pokemon {
 
     // Standard attack method that deals base damage to a target Pokémon
     public void attack(Pokemon target) {
-        System.out.println(name + " attacks " + target.getName() + " for " + baseDamage + " damage!");
-        target.takeDamage(baseDamage);
+        if (hasEnergy()) {
+            System.out.println(name + " attacks " + target.getName() + " for " + baseDamage + " damage!");
+            target.takeDamage(baseDamage);
+        } else {
+            System.out.println(name + " does not have enough energy to attack!");
+        }
     }
 
     public boolean isAlive() {
